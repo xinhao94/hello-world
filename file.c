@@ -8,6 +8,7 @@
 #define LINE_SIZE 5
 
 int main(void){
+  //Open and read a file
   FILE * f = fopen("./test.txt", "r");
   if(f == NULL){
     printf("Error code = %d, reason = %s\n", errno, strerror(errno));
@@ -40,5 +41,18 @@ int main(void){
   }
   printf("The total is %ld.\n", total);
   fclose(g);
+  //Write sth into the file
+  FILE * h = fopen("./a.txt", "w");
+  if(h == NULL){
+    printf("Error code = %d, reason = %s\n", errno, strerror(errno));
+    return EXIT_FAILURE;
+  }
+  int start = 1;
+  int end = 7;
+  for(int i=start; i<=end; i++){
+      //printf("Code executed %d times.\n", i);
+      fprintf(h, "%d\n", i*i);
+  }
+  fclose(h);
   return EXIT_SUCCESS;
 }
