@@ -53,6 +53,10 @@ int main(void){
       //printf("Code executed %d times.\n", i);
       fprintf(h, "%d\n", i*i);
   }
-  fclose(h);
+  printf("File \"a.txt\" has been created.\n");
+  if(fclose(h) != 0){
+      printf("Error code = %d, reason = %s\n", errno, strerror(errno));
+      return EXIT_FAILURE;
+  }
   return EXIT_SUCCESS;
 }
