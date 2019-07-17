@@ -35,5 +35,5 @@ int main(void){
     c.printPoint();
     a += b;
     a.printPoint();
-    return 0;
+    return EXIT_SUCCESS;
 }
