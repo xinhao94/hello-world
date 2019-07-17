@@ -10,6 +10,12 @@ class Point{
             x = a;
             y = b;
         }
+        int getX(void){
+            return x;
+        }
+        int getY(void){
+            return y;
+        }
         void printPoint(void){
             cout<<"("<<x<<","<<y<<")"<<endl;
         }
@@ -19,11 +25,16 @@ class Point{
             ans.y = y + rhs.y;
             return ans;
         } 
-
         Point & operator += (const Point & rhs){
             x += rhs.x;
             y += rhs.y;
             return *this;
+        }
+        double getDistance(Point obj){
+            return sqrt(pow(double(x-obj.x),2) + pow(double(y-obj.y),2));
+        }
+        double getSlope(Point obj){
+            return (y-obj.y)/(x-obj.x);
         }
 };
 
