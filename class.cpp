@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 class Point{
@@ -6,6 +7,15 @@ class Point{
         int x;
         int y;
     public:
+        //default constructor
+        Point(){
+            x = 0;
+            y = 0;
+        }
+        Point(int init_x, int init_y){
+            x = init_x;
+            y = init_y;
+        }
         void setPoint(int a, int b){
             x = a;
             y = b;
@@ -39,12 +49,17 @@ class Point{
 };
 
 int main(void){
-    Point a, b, c;
-    a.setPoint(1,1);
-    b.setPoint(2,2);
-    c = a + b;
-    c.printPoint();
-    a += b;
-    a.printPoint();
+    int size = 5;
+    Point * point_arr = new Point[size];
+    for(int i=0; i<size; i++){
+        point_arr[i].printPoint();
+    }
+    Point ** point_ptrs = new Point*[size];
+    for(int i=0; i<size; i++){
+        point_ptrs[i] = new Point(i,i);
+    }
+    for(int i=0; i<size; i++){
+        point_ptrs[i]->printPoint();
+    }
     return EXIT_SUCCESS;
 }
