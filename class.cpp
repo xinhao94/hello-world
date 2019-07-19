@@ -8,14 +8,8 @@ class Point{
         int y;
     public:
         //default constructor
-        Point(){
-            x = 0;
-            y = 0;
-        }
-        Point(int init_x, int init_y){
-            x = init_x;
-            y = init_y;
-        }
+        Point(): x(0), y(0) {}
+        Point(int init_x, int init_y): x(init_x), y(init_x){}
         void setPoint(int a, int b){
             x = a;
             y = b;
