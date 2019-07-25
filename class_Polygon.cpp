@@ -60,7 +60,7 @@ class Polygon{
             }
         }
         // Assign a point as a vertex
-        void setVertex(size_t n, Point p){
+        void setVertex(size_t n, const Point & p){
             if(n>=1 && n<=numPoints){
                 points[n-1] = p;
             }
