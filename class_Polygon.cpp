@@ -14,6 +14,10 @@ class Point{
         void printPoint(void){
             cout<<"("<<x<<","<<y<<")"<<endl; 
         }
+        void setPoint(int new_x, int new_y){
+            x = new_x;
+            y = new_y;
+        }
 };
 
 class Polygon{
@@ -35,6 +39,19 @@ class Polygon{
                 points[i] = rhs.points[i];
             }
         }
+        // Overloading assignment operator: make a deep copy
+        Polygon & operator=(const Polygon & rhs){
+            if(this != &rhs){
+                Point * temp = new Point[rhs.numPoints];
+                for(size_t i=0; i<rhs.numPoints; i++){
+                    temp[i] = rhs.points[i];
+                }
+                delete[] points;
+                numPoints = rhs.numPoints;
+                points = temp;
+            }
+            return *this;
+        }
         // Print out a type Polygon object
         void printPolygon(void){
             cout<<"This object has "<<numPoints<<" point(s) as follows:"<<endl;
@@ -42,10 +59,33 @@ class Polygon{
                 points[i].printPoint();
             }
         }
+        // Assign a point as a vertex
+        void setVertex(size_t n, Point p){
+            if(n>=1 && n<=numPoints){
+                points[n-1] = p;
+            }
+            else{
+                cout<<"Assignment failed"<<endl;
+            }
+        }
 };
 
 int main(void){
-    Polygon poly(6);
+    Point p1, p2, p3, p4;
+    p1.setPoint(0,0);
+    p2.setPoint(3,0);
+    p3.setPoint(3,2);
+    p4.setPoint(0,2);
+    Polygon poly(4);
     poly.printPolygon();
+    poly.setVertex(1, p1);
+    poly.setVertex(2, p2);
+    poly.setVertex(3, p3);
+    poly.setVertex(4, p4);
+    poly.printPolygon();
+    Polygon poly_copy(4);
+    poly_copy.printPolygon();
+    poly_copy = poly;
+    poly_copy.printPolygon();
     return EXIT_SUCCESS;
 }
