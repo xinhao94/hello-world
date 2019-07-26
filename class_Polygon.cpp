@@ -19,11 +19,17 @@ class Point{
             y = new_y;
         }
         friend ostream & operator<<(ostream & os, const Point & obj);
+        friend istream & operator>>(istream & is, Point & obj);
 };
 
 ostream & operator<<(ostream & os, const Point & obj){
     os<<"("<<obj.x<<","<<obj.y<<") ";
     return os; 
+}
+
+istream & operator>>(istream & is, Point & obj){
+    is>>obj.x>>obj.y;
+    return is;
 }
 
 class Polygon{
