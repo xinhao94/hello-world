@@ -18,6 +18,12 @@ class Point{
             x = new_x;
             y = new_y;
         }
+        int getX(void){
+            return x;
+        }
+        int getY(void){
+            return y;
+        }
 };
 
 class Polygon{
@@ -69,6 +75,11 @@ class Polygon{
             }
         }
 };
+
+ostream & operator<<(ostream & os, Point obj){
+    os<<"("<<obj.getX()<<","<<obj.getY()<<") ";
+    return os; 
+}
 
 int main(void){
     Point p1, p2, p3, p4;
