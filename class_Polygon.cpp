@@ -79,7 +79,27 @@ class Polygon{
                 cout<<"Assignment failed"<<endl;
             }
         }
+        size_t getNumPoints(void){
+            return numPoints;
+        }
+        Point getOnePoint(size_t n){
+            if(n < numPoints){
+                return points[n];
+            }
+            else{
+                Point p;
+                return p;
+            }
+        }
 };
+
+ostream & operator<<(ostream & os, Polygon obj){
+    size_t temp = obj.getNumPoints();
+    for(size_t i=0; i<temp; i++){
+        os<<obj.getOnePoint(i);
+    }
+    return os;
+}
 
 
 int main(void){
