@@ -28,7 +28,7 @@ class Polygon{
         // Constructor without parameters
         Polygon(): points(NULL), numPoints(0){}
         // Constructor with parameters
-        Polygon(size_t n):  points(new Point[n]), numPoints(n){}
+        explicit Polygon(size_t n):  points(new Point[n]), numPoints(n){}
         // Destructor
         ~Polygon(){
             delete[] points;
