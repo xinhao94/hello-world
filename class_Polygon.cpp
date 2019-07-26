@@ -18,16 +18,11 @@ class Point{
             x = new_x;
             y = new_y;
         }
-        int getX(void){
-            return x;
-        }
-        int getY(void){
-            return y;
-        }
+        friend ostream & operator<<(ostream & os, const Point & obj);
 };
 
-ostream & operator<<(ostream & os, Point obj){
-    os<<"("<<obj.getX()<<","<<obj.getY()<<") ";
+ostream & operator<<(ostream & os, const Point & obj){
+    os<<"("<<obj.x<<","<<obj.y<<") ";
     return os; 
 }
 
@@ -79,24 +74,12 @@ class Polygon{
                 cout<<"Assignment failed"<<endl;
             }
         }
-        size_t getNumPoints(void){
-            return numPoints;
-        }
-        Point getOnePoint(size_t n){
-            if(n < numPoints){
-                return points[n];
-            }
-            else{
-                Point p;
-                return p;
-            }
-        }
+        friend ostream & operator<<(ostream & os, const Polygon & obj);
 };
 
-ostream & operator<<(ostream & os, Polygon obj){
-    size_t temp = obj.getNumPoints();
-    for(size_t i=0; i<temp; i++){
-        os<<obj.getOnePoint(i);
+ostream & operator<<(ostream & os, const Polygon & obj){
+    for(size_t i=0; i<obj.numPoints; i++){
+        os<<obj.points[i];
     }
     return os;
 }
