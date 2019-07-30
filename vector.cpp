@@ -4,8 +4,9 @@
 using namespace std;
 
 template<typename T>
-void printElements(T & container){
-    typename T::iterator it = container.begin();
+void printElements(const T & container){
+    // Use const_iterator to obtain a const reference
+    typename T::const_iterator it = container.begin();
     while(it != container.end()){
         cout<<*it<<endl;
         ++it;
