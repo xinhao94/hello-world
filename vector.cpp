@@ -25,7 +25,7 @@ int main(void){
     while(it != intVec.end()){
         cout<<*it<<endl;
         // ++it is more efficient than it++
-        // since it avoids object copying
+        // since ++it avoids object copying
         ++it;
     }
     // A space is required for consecutive right angle brackets
