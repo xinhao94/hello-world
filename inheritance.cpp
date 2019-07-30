@@ -34,7 +34,7 @@ class BankAccount{
             nextAccountNumber++;
         }
         // Constructor with parameter
-        BankAccount(double initBalance): balance(initBalance), accountNumber(nextAccountNumber){
+        explicit BankAccount(double initBalance): balance(initBalance), accountNumber(nextAccountNumber){
             cout<<"Account No. "<<accountNumber<<" was created!"<<endl;
             nextAccountNumber++;
         }
