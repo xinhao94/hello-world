@@ -14,6 +14,7 @@ int main(void){
     vector<int>::iterator it = intVec.begin();
     while(it != intVec.end()){
         cout<<*it<<endl;
+        // ++it is more efficient than it++
         ++it;
     }
     return EXIT_SUCCESS;
