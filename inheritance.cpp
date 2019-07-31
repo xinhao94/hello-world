@@ -56,7 +56,7 @@ class InvestmentAccount : public BankAccount{
             cout<<"InvestmentAccount No. "<<getAccountNumber()<<" was created!"<<endl;
         }
         // Constructor with parameter
-        InvestmentAccount(double balance) : BankAccount(balance), tradesThisMonth(0){
+        explicit InvestmentAccount(double balance) : BankAccount(balance), tradesThisMonth(0){
             cout<<"InvestmentAccount No. "<<getAccountNumber()<<" was created!"<<endl;
         }
         unsigned getTradesThisMonth() const{
