@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 class BankAccount{
@@ -30,7 +31,7 @@ class BankAccount{
         }
         // Constructor without parameter
         BankAccount(): balance(0), accountNumber(nextAccountNumber){
-            cout<<"Account No. "<<accountNumber<<" was created!"<<endl;
+            cout<<"BankAccount No. "<<accountNumber<<" was created!"<<endl;
             nextAccountNumber++;
         }
         // Constructor with parameter
@@ -39,7 +40,7 @@ class BankAccount{
             nextAccountNumber++;
         }
 };
-unsigned long BankAccount::nextAccountNumber = 0;
+unsigned long BankAccount::nextAccountNumber = 1;
 
 class Stock{
     private:
@@ -72,6 +73,15 @@ class MarginAccount : public InvestmentAccount{
         double marginLimit;
         double marginUsed;
     public:
+        // Constructor without parameter
+        MarginAccount() : marginLimit(5000.0), marginUsed(0){
+            cout<<"MarginAccount No. "<<getAccountNumber()<<" was created!"<<endl;
+        }
+        // Constructor with parameter
+        MarginAccount(double balance, double margin) : InvestmentAccount(balance), 
+                                            marginLimit(margin), marginUsed(0){
+            cout<<"MarginAccount No. "<<getAccountNumber()<<" was created!"<<endl;
+        }
         void buyStock(Stock whichStock, double numShares);
         void sellStock(Stock whichStock, double numShares);
 };
@@ -80,5 +90,6 @@ int main(){
     size_t length = 3;
     vector<BankAccount> bankVec(length);
     vector<InvestmentAccount> investVec(length);
+    vector<MarginAccount> marginVec(length);
     return EXIT_SUCCESS;
 }
