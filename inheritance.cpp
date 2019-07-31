@@ -51,9 +51,16 @@ class InvestmentAccount : public BankAccount{
         vector<pair<Stock *, double> > stocks;
         unsigned tradesThisMonth;
     public:
-        // Constructor withou parameter
-        InvestmentAccount(){
+        // Constructor without parameter
+        InvestmentAccount() : tradesThisMonth(0){
             cout<<"InvestmentAccount No. "<<getAccountNumber()<<" was created!"<<endl;
+        }
+        // Constructor with parameter
+        InvestmentAccount(double balance) : BankAccount(balance), tradesThisMonth(0){
+            cout<<"InvestmentAccount No. "<<getAccountNumber()<<" was created!"<<endl;
+        }
+        unsigned getTradesThisMonth() const{
+            return tradesThisMonth;
         }
         void buyStock(Stock whichStock, double numShares);
         void sellStock(Stock whichStock, double numShares);
