@@ -41,8 +41,37 @@ class BankAccount{
 };
 unsigned long BankAccount::nextAccountNumber = 0;
 
+class Stock{
+    private:
+        char * name;
+};
+
+class InvestmentAccount : public BankAccount{
+    private:
+        vector<pair<Stock *, double> > stocks;
+        unsigned tradesThisMonth;
+    public:
+        // Constructor withou parameter
+        InvestmentAccount(){
+            cout<<"InvestmentAccount No. "<<getAccountNumber()<<" was created!"<<endl;
+        }
+        void buyStock(Stock whichStock, double numShares);
+        void sellStock(Stock whichStock, double numShares);
+        double getMarketValue() const;
+};
+
+class MarginAccount : public InvestmentAccount{
+    private:
+        double marginLimit;
+        double marginUsed;
+    public:
+        void buyStock(Stock whichStock, double numShares);
+        void sellStock(Stock whichStock, double numShares);
+};
+
 int main(){
-    size_t length = 10;
-    vector<BankAccount> accountVec(length);
+    size_t length = 3;
+    vector<BankAccount> bankVec(length);
+    vector<InvestmentAccount> investVec(length);
     return EXIT_SUCCESS;
 }
