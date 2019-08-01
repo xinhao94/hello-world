@@ -8,6 +8,7 @@ class BankAccount{
         static unsigned long nextAccountNumber;
         unsigned long accountNumber;
         double balance;
+        double interestRate;
     public:
         unsigned long getAccountNumber() const{
             return accountNumber;
@@ -36,8 +37,11 @@ class BankAccount{
         }
         // Constructor with parameter
         explicit BankAccount(double initBalance): balance(initBalance), accountNumber(nextAccountNumber){
-            cout<<"Account No. "<<accountNumber<<" was created!"<<endl;
+            cout<<"BankAccount No. "<<accountNumber<<" was created!"<<endl;
             nextAccountNumber++;
+        }
+        void accrueInterest(double fractionOfYear){
+            balance += balance * interestRate * fractionOfYear; 
         }
 };
 unsigned long BankAccount::nextAccountNumber = 1;
@@ -86,10 +90,35 @@ class MarginAccount : public InvestmentAccount{
         void sellStock(Stock whichStock, double numShares);
 };
 
+class Bank{
+    private:
+        vector<BankAccount *> allAccounts;
+    public:
+        InvestmentAccount * createInvestmentAccount(double balance){
+            InvestmentAccount * newAccount = new InvestmentAccount(balance);
+            // Subtype polymorphism is utilized here
+            // Yet it can only be utilized via pointers/references
+            allAccounts.push_back(newAccount);
+            return newAccount;
+        }
+        void accrueInterestOnAllAccounts(double fractionOfYear){
+            vector<BankAccount *>::iterator it = allAccounts.begin();
+            while(it != allAccounts.end()){
+                BankAccount * currentAccount = *it;
+                // Use of polymorphism here: all elements share this method
+                // in spite of their actual account type
+                currentAccount->accrueInterest(fractionOfYear);
+                ++it;
+            }
+        }
+};
+
 int main(){
     size_t length = 3;
     vector<BankAccount> bankVec(length);
     vector<InvestmentAccount> investVec(length);
     vector<MarginAccount> marginVec(length);
+    Bank obj;
+    obj.createInvestmentAccount(100);
     return EXIT_SUCCESS;
 }
