@@ -40,6 +40,8 @@ class BankAccount{
             cout<<"BankAccount No. "<<accountNumber<<" was created!"<<endl;
             nextAccountNumber++;
         }
+        // Since polymorphism is utilized, the destructor should be declared as virtual
+        virtual ~BankAccount(){}
         void accrueInterest(double fractionOfYear){
             balance += balance * interestRate * fractionOfYear; 
         }
@@ -49,6 +51,11 @@ unsigned long BankAccount::nextAccountNumber = 1;
 class Stock{
     private:
         char * name;
+        double price;
+    public:
+        double getPrice(){
+            return price;
+        }
 };
 
 class InvestmentAccount : public BankAccount{
@@ -64,13 +71,29 @@ class InvestmentAccount : public BankAccount{
         explicit InvestmentAccount(double balance) : BankAccount(balance), tradesThisMonth(0){
             cout<<"InvestmentAccount No. "<<getAccountNumber()<<" was created!"<<endl;
         }
+        // Since polymorphism is utilized, the destructor should be declared as virtual
+        virtual ~InvestmentAccount(){}
         unsigned getTradesThisMonth() const{
             return tradesThisMonth;
         }
         // This overridden method will be dynamically despatched by declaring as "virtual"
-        virtual void buyStock(Stock whichStock, double numShares);
-        void sellStock(Stock whichStock, double numShares);
+        virtual bool buyStock(Stock * s, double numShares){
+            double cost = getCost(s) * numShares;
+            double balance = getBalance();
+            if(cost<=balance){
+                balance -= cost;
+                tradesThisMonth += 1;
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        void sellStock(Stock * s, double numShares);
         double getMarketValue() const;
+        double getCost(Stock * s) const{
+            return s->getPrice();
+        }
 };
 
 class MarginAccount : public InvestmentAccount{
@@ -88,7 +111,31 @@ class MarginAccount : public InvestmentAccount{
             cout<<"MarginAccount No. "<<getAccountNumber()<<" was created!"<<endl;
         }
         // This overridden method will be dynamically despatched by declaring as "virtual"
-        virtual void buyStock(Stock whichStock, double numShares);
+        virtual bool buyStock(Stock * s, double numShares){
+            double cost = getCost(s) * numShares;
+            double borrowAmount = 0;
+            double balance = getBalance();
+            if(balance < cost){
+                borrowAmount = cost - balance;
+                if(marginUsed+borrowAmount < marginLimit){
+                    balance += borrowAmount;
+                    marginUsed -= borrowAmount;
+                }
+                else{
+                    return false;
+                }
+            }
+            // In order to use method of parent class, fully qualified name
+            // need to be used.
+            if(InvestmentAccount::buyStock(s, numShares)){
+                return true;
+            }
+            else{
+                balance -= borrowAmount;
+                marginUsed -= borrowAmount;
+                return false;
+            }
+        }
         void sellStock(Stock whichStock, double numShares);
 };
 
