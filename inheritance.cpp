@@ -67,7 +67,8 @@ class InvestmentAccount : public BankAccount{
         unsigned getTradesThisMonth() const{
             return tradesThisMonth;
         }
-        void buyStock(Stock whichStock, double numShares);
+        // This overridden method will be dynamically despatched by declaring as "virtual"
+        virtual void buyStock(Stock whichStock, double numShares);
         void sellStock(Stock whichStock, double numShares);
         double getMarketValue() const;
 };
@@ -86,7 +87,8 @@ class MarginAccount : public InvestmentAccount{
                                             marginLimit(margin), marginUsed(0){
             cout<<"MarginAccount No. "<<getAccountNumber()<<" was created!"<<endl;
         }
-        void buyStock(Stock whichStock, double numShares);
+        // This overridden method will be dynamically despatched by declaring as "virtual"
+        virtual void buyStock(Stock whichStock, double numShares);
         void sellStock(Stock whichStock, double numShares);
 };
 
