@@ -34,10 +34,10 @@ class Point{
             y += rhs.y;
             return *this;
         }
-        double getDistance(Point & obj) const{
+        double getDistance(const Point & obj) const{
             return sqrt(pow(double(x-obj.x),2) + pow(double(y-obj.y),2));
         }
-        double getSlope(Point & obj) const{
+        double getSlope(const Point & obj) const{
             return (y-obj.y)/(x-obj.x);
         }
 };
