@@ -14,10 +14,10 @@ class Point{
             x = a;
             y = b;
         }
-        int getX(void){
+        int getX(void) const{
             return x;
         }
-        int getY(void){
+        int getY(void) const{
             return y;
         }
         void printPoint(void){
@@ -34,10 +34,10 @@ class Point{
             y += rhs.y;
             return *this;
         }
-        double getDistance(Point obj){
+        double getDistance(Point & obj) const{
             return sqrt(pow(double(x-obj.x),2) + pow(double(y-obj.y),2));
         }
-        double getSlope(Point obj){
+        double getSlope(Point & obj) const{
             return (y-obj.y)/(x-obj.x);
         }
 };
