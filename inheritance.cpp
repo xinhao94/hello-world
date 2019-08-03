@@ -50,11 +50,14 @@ unsigned long BankAccount::nextAccountNumber = 1;
 
 class Stock{
     private:
-        char * name;
+        string name;
         double price;
     public:
-        double getPrice(){
+        double getStockPrice() const{
             return price;
+        }
+        string getStockName() const{
+            return name;
         }
 };
 
@@ -92,7 +95,7 @@ class InvestmentAccount : public BankAccount{
         void sellStock(Stock * s, double numShares);
         double getMarketValue() const;
         double getCost(Stock * s) const{
-            return s->getPrice();
+            return s->getStockPrice();
         }
 };
 
