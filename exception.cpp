@@ -119,14 +119,18 @@ class BankAccount{
                         c->markAsCashed();
                         cout<<"Check for Account No. "<<actNum<<" is accepted!"<<endl;
                     }
-                    catch(InsufficientFunds & isfE){
+                    // Use const reference to avoid copying
+                    catch(const InsufficientFunds & isfE){
                         c->refectForFunds();
                         cout<<"Check for Account No. "<<isfE.getAccountNumber()<<" is rejected!"<<endl;
+                        cout<<isfE.what()<<endl;
                     }
                 }
             }
-            catch(InvalidAccountNumber & ivaE){
+            // Use const reference to avoid copying
+            catch(const InvalidAccountNumber & ivaE){
                 cout<<"Account No. "<<ivaE.getAccountNumber()<<" is invalid!"<<endl;
+                cout<<ivaE.what()<<endl;
             }
         }
         friend ostream & operator<<(ostream & os, const BankAccount & obj);
