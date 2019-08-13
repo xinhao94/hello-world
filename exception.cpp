@@ -4,6 +4,8 @@
 #include <vector>
 using namespace std;
 
+// Customized exception class should publicly inherent class exception
+// or one of its child classes
 class InsufficientFunds : public exception{
     private:
         unsigned accountNumber;
