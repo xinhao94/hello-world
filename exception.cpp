@@ -12,6 +12,10 @@ class InsufficientFunds : public exception{
         unsigned getAccountNumber(void) const{
             return accountNumber;
         }
+        // The "what" method should be overridden
+        virtual const char * what() const throw(){
+            return "The requested account does not have enough fund.";
+        }
 };
 
 class InvalidAccountNumber : public exception{
@@ -21,6 +25,10 @@ class InvalidAccountNumber : public exception{
         explicit InvalidAccountNumber(unsigned num) : accountNumber(num){}
         unsigned getAccountNumber(void) const{
             return accountNumber;
+        }
+        // The "what" method should be overridden
+        virtual const char * what() const throw(){
+            return "The requested account number is invalid.";
         }
 };
 
