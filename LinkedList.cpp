@@ -12,7 +12,9 @@ class LinkedList{
                 Node * next;
                 Node * prev;
                 // Default constructor
-                Node(T content, Node * p) : data(content), next(p), prev(NULL){}
+                Node(T ct) : data(ct), next(NULL), prev(NULL){}
+                Node(T ct, Node * p) : data(ct), next(p), prev(NULL){}
+                Node(T ct, Node * p1, Node * p2) : data(ct), next(p1), prev(p2){}
         };
         Node * head;
         Node * tail;
@@ -53,6 +55,16 @@ class LinkedList{
             }
             size ++;
         }
+        void addBack(T data){
+            tail = new Node(data, NULL, tail);
+            if(head==NULL){
+                head = tail;
+            }
+            else{
+                tail->prev->next = tail;
+            }
+            size ++;
+        }
 };
 
 
@@ -60,9 +72,10 @@ class LinkedList{
 
 int main(){
     LinkedList<int> lp;
+    lp.addBack(5);
     lp.addFront(3);
-    lp.addFront(5);
-    lp.addFront(7);
+    lp.addBack(7);
+    cout<<"No. of Nodes: "<<lp.getSize()<<endl;
     lp.showAll();
     return EXIT_SUCCESS;
 }
