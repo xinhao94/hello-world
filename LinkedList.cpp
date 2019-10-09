@@ -65,6 +65,18 @@ class LinkedList{
             }
             size ++;
         }
+        T * findElement(T element){
+            Node * p = head;
+            while(p!=NULL){
+                if(p->data==element){
+                    return &(p->data);
+                }
+                else{
+                    p = p->next;
+                }
+            }
+            return NULL;
+        }
 };
 
 
