@@ -77,6 +77,14 @@ class LinkedList{
             }
             return NULL;
         }
+        // Destructor
+        ~LinkedList(){
+            while(head != NULL){
+                Node * temp = head->next;
+                delete head;
+                head = temp;
+            }
+        }
 };
 
 
