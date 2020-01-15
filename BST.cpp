@@ -5,11 +5,10 @@ template<typename T>
 class BST{
     public:
         class Node{
-            private:
+            public:
                 T data;
                 Node * left;
                 Node * right;
-            public:
                 // Default constructor
                 Node(T input) : data(input), left(NULL), right(NULL){}
                 T getData(void){
@@ -56,14 +55,20 @@ class BST{
         Node * getRoot(void){
             return this->root;
         }
-        Node * getLeftChinld(Node * current){
+        Node * getLeftChild(Node * current){
             return current->getLeft();
         }
         Node * getRightChild(Node * current){
             return current->getRight();
         }
         T getValue(Node * current){
-            return current->getData();
+            if(current == NULL){
+                cout<<"Node does not exist"<<endl;
+                return 0;
+            }
+            else{
+                return current->getData();
+            }
         }
 };
 
@@ -71,6 +76,10 @@ int main(){
     BST<int> tree(55);
     BST<int>::Node * curr = tree.getRoot();
     int value = tree.getValue(curr);
+    cout<<value<<endl;
+    tree.add(20);
+    curr = tree.getLeftChild(curr);
+    value = tree.getValue(curr);
     cout<<value<<endl;
     return EXIT_SUCCESS;
 }
