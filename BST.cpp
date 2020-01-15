@@ -3,14 +3,26 @@ using namespace std;
 
 template<typename T>
 class BST{
-    private:
+    public:
         class Node{
-            T data;
-            Node * left;
-            Node * right;
-            // Default constructor
-            Node(T input) : data(input), left(NULL), right(NULL){}
+            private:
+                T data;
+                Node * left;
+                Node * right;
+            public:
+                // Default constructor
+                Node(T input) : data(input), left(NULL), right(NULL){}
+                T getData(void){
+                    return data;
+                }
+                Node * getLeft(void){
+                    return left;
+                }
+                Node * getRight(void){
+                    return right;
+                }
         };
+    private:
         Node * root;
         // private helper method
         Node * add(Node * current, T input){
@@ -31,15 +43,34 @@ class BST{
             }
         }
     public:
-        // Default constructor
+        // Default constructor without argument
         BST() : root(NULL) {}
-        // public interface
+        // Constructor with argument
+        BST(T input){
+            root = new Node(input);
+        }
+        // public interface method
         void add(T input){
             root = add(root, input);
         }
+        Node * getRoot(void){
+            return this->root;
+        }
+        Node * getLeftChinld(Node * current){
+            return current->getLeft();
+        }
+        Node * getRightChild(Node * current){
+            return current->getRight();
+        }
+        T getValue(Node * current){
+            return current->getData();
+        }
 };
 
-int main(void){
-    printf("Compiled success\n");
+int main(){
+    BST<int> tree(55);
+    BST<int>::Node * curr = tree.getRoot();
+    int value = tree.getValue(curr);
+    cout<<value<<endl;
     return EXIT_SUCCESS;
 }
