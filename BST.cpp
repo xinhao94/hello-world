@@ -157,29 +157,28 @@ class BST{
                     *handle = NULL;
                     return true;
                 }
+                else if((*handle)->left != NULL && (*handle)->right == NULL){
+                    Node * temp = (*handle)->left;
+                    delete *handle;
+                    *handle = temp;
+                    return true;
+                }
+                else if((*handle)->left == NULL && (*handle)->right != NULL){
+                    Node * temp = (*handle)->right;
+                    delete *handle;
+                    *handle = temp;
+                    return true;
+                }
             }
             return false;
         }
 };
 
 int main(){
-    BST<int> tree(55);
-    BST<int>::Node * curr = tree.getRoot();
-    int value = tree.getValue(curr);
-    cout<<value<<endl;
-    tree.add(20);
-    tree.add2(70);
-    BST<int>::Node * leftCld = tree.getLeftChild(curr);
-    value = tree.getValue(leftCld);
-    cout<<value<<endl;
-    BST<int>::Node * rightCld = tree.getRightChild(curr);
-    value = tree.getValue(rightCld);
-    cout<<value<<endl;
-    BST<int>::Node * handle = tree.search(70);
-    value = tree.getValue(handle);
-    cout<<value<<endl;
-    bool status = tree.remove(70);
-    cout<<status<<endl;
-    handle = tree.search(70);
+    BST<int> tree(60);
+    int figures[11] = {19, 93, 4, 25, 84, 1, 11, 21, 35, 70, 86};
+    for(int i=0; i<11; i++){
+        tree.add(figures[i]);
+    }
     return EXIT_SUCCESS;
 }
