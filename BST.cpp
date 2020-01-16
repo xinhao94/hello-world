@@ -145,40 +145,58 @@ class BST{
             }
         }
         // remove a particular value
-        bool remove(T input){
+        void remove(T input){
             Node ** handle = this->searchHandle(input);
             if(handle == NULL){
                 cout<<"Value does not exist!"<<endl;
-                return false;
             }
             else{
                 if((*handle)->left == NULL && (*handle)->right == NULL){
                     delete *handle;
                     *handle = NULL;
-                    return true;
                 }
                 else if((*handle)->left != NULL && (*handle)->right == NULL){
                     Node * temp = (*handle)->left;
                     delete *handle;
                     *handle = temp;
-                    return true;
                 }
                 else if((*handle)->left == NULL && (*handle)->right != NULL){
                     Node * temp = (*handle)->right;
                     delete *handle;
                     *handle = temp;
-                    return true;
+                }
+                else{
+                    Node ** move = handle;
+                    move = &((*handle)->left);
+                    while(((*move)->right) != NULL){
+                        move = &((*move)->right);
+                    }
+                    T value = (*move)->data;
+                    delete *move;
+                    (*handle)->data = value;
                 }
             }
-            return false;
         }
 };
 
 int main(){
     BST<int> tree(60);
-    int figures[11] = {19, 93, 4, 25, 84, 1, 11, 21, 35, 70, 86};
+    int nums[11] = {19, 93, 4, 25, 84, 1, 11, 21, 35, 70, 86};
     for(int i=0; i<11; i++){
-        tree.add(figures[i]);
+        tree.add(nums[i]);
     }
+    BST<int>::Node * root = tree.getRoot();
+    BST<int>::Node * current = root;
+    while(current != NULL){
+        cout<<tree.getValue(current)<<endl;
+        current = tree.getLeftChild(current);
+    }
+    cout<<"Attempt to remove 19"<<endl;
+    tree.remove(19);
+    current = root;
+    while(current != NULL){
+        cout<<tree.getValue(current)<<endl;
+        current = tree.getLeftChild(current);
+    }    
     return EXIT_SUCCESS;
 }
