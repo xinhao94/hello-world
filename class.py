@@ -37,18 +37,81 @@ class Employee:
 		else:
 			return True
 
+# Class Developer is inherited from class Employee
+class Developer(Employee):
+	# Override the attribute in parent class
+	raise_amt = 1.10
+	# Override the constructor for more attributes
+	def __init__(self, first, last, pay, prog_lang):
+		# Call the parent constructor to handle some arguments
+		super().__init__(first, last, pay)
+		# Handle the new attribute
+		self.prog_lang = prog_lang
+
+class Manager(Employee):
+	# Override the constructor for more attributes
+	# Avoid using mutable data type as the default value
+	def __init__(self, first, last, pay, employees=None):
+		super().__init__(first, last, pay)
+		# Initiate the employees that the manager supervises
+		if employees is None:
+			self.employees = []
+		else:
+			self.employees = employees
+	# Add an employee to the supervision list
+	def add_emp(self, emp):
+		if emp not in self.employees:
+			self.employees.append(emp)
+	# Remove an employee from the supervision list
+	def remove_emp(self, emp):
+		if emp in self.employees:
+			self.employees.remove(emp)
+	# Print all employees in the supervision list
+	def print_emps(self):
+		for emp in self.employees:
+			print('-->', emp.fullname())
+
 import datetime
 
+# Instantiation by calling the constructor
 emp_1 = Employee('Corey', 'Schafer', 50000)
-emp_2 = Employee('Test', 'Employee', 60000)
 print(emp_1.fullname())
 print(emp_1.email)
+
+# Calling a class method
 print(Employee.raise_amt)
 Employee.set_raise_amt(1.05)
 print(Employee.raise_amt)
+
+# Using a class method as an alternative constructor
 new_emp_str = 'John-Doe-70000'
 new_emp = Employee.from_string(new_emp_str)
 print(new_emp.email)
 
+# Calling a static method 
 my_date = datetime.date(2020, 1, 27)
 print(Employee.is_workday(my_date))
+
+
+# Instantiate one inherited class
+dev_1 = Developer('Test', 'Employee', 60000, 'Java')
+print(dev_1.email)
+print(dev_1.prog_lang)
+
+#Instantiate another inherited class
+mgr_1 = Manager('Sue', 'Smith', 90000, [dev_1])
+print(mgr_1.email)
+mgr_1.add_emp(emp_1)
+mgr_1.remove_emp(dev_1)
+mgr_1.print_emps()
+
+# Visualize the inheritance by calling function help()
+# print(help(Developer))
+
+# Useful built-in functions
+print(isinstance(mgr_1, Manager))
+print(isinstance(mgr_1, Employee))
+print(isinstance(mgr_1, Developer))
+print(issubclass(Developer, Employee))
+print(issubclass(Manager, Employee))
+print(issubclass(Manager, Developer))
