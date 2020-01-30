@@ -9,13 +9,35 @@ class Employee:
 	def __init__(self, first, last, pay):
 		self.first = first
 		self.last = last
-		self.email = first + '.' + last +'@email.com'
 		self.pay = pay
 
 		Employee.num_of_emps += 1
 
+	# Property decorator allows access to a method in the way of 
+	# accessing an attribute
+	@property	
+	def email(self):
+		return '{}.{}@email.com'.format(self.first, self.last)
+
+	@property
 	def fullname(self):
 		return '{} {}'.format(self.first, self.last)
+
+	# Example of a setter property
+	# Use fullname to reset the attributes
+	@fullname.setter
+	def fullname(self, name):
+		first, last = name.split(' ')
+		self.first = first
+		self.last = last
+
+	# Example of a deleter property
+	# Use fullname to delete attributes
+	@fullname.deleter
+	def fullname(self):
+		print('Name Deleted!')
+		self.first = None
+		self.last = None
 
 	def apply_raise(self):
 		self.pay = int(self.pay * self.raise_amt)
@@ -50,7 +72,7 @@ class Employee:
 	# object, used as a display for end users
 	# __str__() overrides the print() function
 	def __str__(self):
-		return "{} - {}".format(self.fullname(), self.email)
+		return "{} - {}".format(self.fullname, self.email)
 
 	# Use __add__() to overload the '+' operator
 	def __add__(self, other):
@@ -58,7 +80,7 @@ class Employee:
 
 	# Overload the dunder method __len__()
 	def __len__(self):
-		return len(self.fullname()) 
+		return len(self.fullname) 
 
 # Class Developer is inherited from class Employee
 class Developer(Employee):
@@ -92,13 +114,13 @@ class Manager(Employee):
 	# Print all employees in the supervision list
 	def print_emps(self):
 		for emp in self.employees:
-			print('-->', emp.fullname())
+			print('-->', emp.fullname)
 
 import datetime
 
 # Instantiation by calling the constructor
 emp_1 = Employee('Corey', 'Schafer', 50000)
-print(emp_1.fullname())
+print(emp_1.fullname)
 print(emp_1.email)
 
 # Calling a class method
@@ -145,3 +167,11 @@ print(emp_1.__str__())
 print(emp_1)
 print(emp_1 + dev_1)
 print(len(emp_1))
+
+# Use the setter to rename an employee
+emp_1.fullname = 'Xinhao Song'
+print(emp_1.fullname)
+print(emp_1.email)
+# Use the deleter to remove attributes
+del emp_1.fullname
+print(emp_1.fullname)
