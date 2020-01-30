@@ -4,6 +4,8 @@ class Employee:
 	raise_amt = 1.04
 
 	# Default constructor
+	# Special methods are surrounded by double underscore
+	# or "dunder"
 	def __init__(self, first, last, pay):
 		self.first = first
 		self.last = last
@@ -36,6 +38,27 @@ class Employee:
 			return False
 		else:
 			return True
+
+	# Common special/magic/dunder methods
+	# __repr__() is an unambiguous representation of the 
+	# object, used for debugging for developers
+	# Return a string that can be used to recreate the object
+	def __repr__(self):
+		return "Employee('{}', '{}', {})".format(self.first, self.last, self.pay)
+
+	# __str__() is a more readable representation of the 
+	# object, used as a display for end users
+	# __str__() overrides the print() function
+	def __str__(self):
+		return "{} - {}".format(self.fullname(), self.email)
+
+	# Use __add__() to overload the '+' operator
+	def __add__(self, other):
+		return self.pay + other.pay
+
+	# Overload the dunder method __len__()
+	def __len__(self):
+		return len(self.fullname()) 
 
 # Class Developer is inherited from class Employee
 class Developer(Employee):
@@ -108,10 +131,17 @@ mgr_1.print_emps()
 # Visualize the inheritance by calling function help()
 # print(help(Developer))
 
-# Useful built-in functions
+# Useful built-in functions 
 print(isinstance(mgr_1, Manager))
 print(isinstance(mgr_1, Employee))
 print(isinstance(mgr_1, Developer))
 print(issubclass(Developer, Employee))
 print(issubclass(Manager, Employee))
 print(issubclass(Manager, Developer))
+
+# Use of magical methods!
+print(emp_1.__repr__())
+print(emp_1.__str__())
+print(emp_1)
+print(emp_1 + dev_1)
+print(len(emp_1))
