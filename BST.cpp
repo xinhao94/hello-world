@@ -194,6 +194,7 @@ class BST{
                 printPreorder(current->right);
             }
         }
+        // Postorder traversal
         void printPostorder(Node * current){
             if(current != NULL){
                 printPostorder(current->left);
