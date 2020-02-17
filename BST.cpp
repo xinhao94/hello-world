@@ -177,26 +177,48 @@ class BST{
                 }
             }
         }
+        // Inorder traversal
+        // Print all nodes in an ascending order
+        void printInorder(Node * current){
+            if(current != NULL){
+                printInorder(current->left);
+                cout<<current->data<<" ";
+                printInorder(current->right);
+            }
+        }
+        // Preorder traversal
+        void printPreorder(Node * current){
+            if(current != NULL){
+                cout<<current->data<<" ";
+                printPreorder(current->left);
+                printPreorder(current->right);
+            }
+        }
+        void printPostorder(Node * current){
+            if(current != NULL){
+                printPostorder(current->left);
+                printPostorder(current->right);
+                cout<<current->data<<" ";
+            }
+        }
 };
 
 int main(){
     BST<int> tree(60);
-    int nums[11] = {19, 93, 4, 25, 84, 1, 11, 21, 35, 70, 86};
-    for(int i=0; i<11; i++){
+    int nums[10] = {11, 93, 4, 25, 84, 1, 21, 35, 70, 86};
+    for(int i=0; i<10; i++){
         tree.add(nums[i]);
     }
     BST<int>::Node * root = tree.getRoot();
     BST<int>::Node * current = root;
-    while(current != NULL){
-        cout<<tree.getValue(current)<<endl;
-        current = tree.getLeftChild(current);
-    }
-    cout<<"Attempt to remove 19"<<endl;
-    tree.remove(19);
-    current = root;
-    while(current != NULL){
-        cout<<tree.getValue(current)<<endl;
-        current = tree.getLeftChild(current);
-    }    
+    cout<<"Inorder Traversal"<<endl;
+    tree.printInorder(root);
+    cout<<endl;
+    cout<<"Preorder Traversal"<<endl;
+    tree.printPreorder(root);
+    cout<<endl;
+    cout<<"Postorder Traversal"<<endl;
+    tree.printPostorder(root);
+    cout<<endl;  
     return EXIT_SUCCESS;
 }
