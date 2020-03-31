@@ -75,9 +75,12 @@ void selectionSort(int * data, int n){
 void heapify(int * data, int n){
     int boundary = 1;
     while(boundary<n){
-        int curr = data[boundary];
+        // Insert the first element of the un-heapifyied array 
+        // to the last slot of the heap (already there)
         int heapCurr = boundary;
+        // Increase the boundary by 1
         boundary ++;
+        // Restore the ordering in the heap
         while(heapCurr!=0){
             if(data[heapCurr]<data[(heapCurr-1)/2]){
                 break;
@@ -96,7 +99,9 @@ void heapSort(int * data, int n){
     int boundary = n-1;
     while(boundary!=0){
         // Move the top of the maximum heap to sorted region
+        // by swapping the top with the last element in the heap
         swap(data[top], data[boundary]);
+        // Decrease the boundary by 1
         boundary --;
         // Restore the ordering in the heap
         int curr = top;
