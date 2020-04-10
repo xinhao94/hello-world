@@ -139,6 +139,9 @@ void heapSort(int * data, int n){
 }
 
 // Implementation of the merge function of merge sort
+// L is the first element of the left array
+// R is the first element of the right array
+// m is the total length after merging
 void merge(int * data, int L, int R, int m){
     int currL = L;
     int currR = R;
@@ -182,6 +185,8 @@ void merge(int * data, int L, int R, int m){
 }
 
 // Implementation for the merge sort
+// L is the first element of the left array
+// R is the first element of the right array
 void mergeSort(int * data, int n, int L, int R){
     if(n==1){
         return;
