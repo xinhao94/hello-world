@@ -138,15 +138,84 @@ void heapSort(int * data, int n){
     }
 }
 
+// Implementation of the merge function of merge sort
+void merge(int * data, int L, int R, int m){
+    int currL = L;
+    int currR = R;
+    int * temp = new int[m];
+    int pos = 0;
+    while(currL<R && currR<L+m){
+        if(data[currL]<data[currR]){
+            temp[pos] = data[currL];
+            currL ++;
+            pos ++;
+        }
+        else{
+            temp[pos] = data[currR];
+            currR ++;
+            pos ++;
+        }
+    }
+    // If there still are elements in the left portion 
+    if(currL!=R){
+        while(currL<R){
+            temp[pos] = data[currL];
+            currL ++;
+            pos ++;
+        }
+    }
+    // If there still are elements in the right portion
+    if(currR!=L+m){
+        while(currR<L+m){
+            temp[pos] = data[currR];
+            currR ++;
+            pos ++;
+        }
+    }
+    // Copy the sorted data back to the original array
+    pos = 0;
+    for(int i=L; i<L+m; i++){
+        data[i] = temp[pos];
+        pos ++;
+    }
+    delete[] temp;
+}
+
+// Implementation for the merge sort
+void mergeSort(int * data, int n, int L, int R){
+    if(n==1){
+        return;
+    }
+    if(n==2){
+        if(data[L]<data[R]){
+            return;
+        }
+        else{
+            swap(data[L], data[R]);
+        }
+    }
+    else{
+        int nL = R-L;
+        int nR = n-nL;
+        mergeSort(data, nL, L, L+nL/2);
+        mergeSort(data, nR, R, R+nR/2);
+        merge(data, L, R, n);
+    }
+}
+
+// Interface for merge sort
+void mergeSort(int * data, int n){
+    int L = 0;
+    int R = n/2;
+    mergeSort(data, n, L, R);
+}
+
 int main()
 {
     int test1[9] = {45, 6, 13, 67, 76, 25, 18, 53, 32};
     int test2[24] = {16, 36, 70, 61, 45, 32, 51, 9, 22, 17, 46, 43, 83, 10, 38, 11, 47, 78, 57, 70, 43, 66, 61, 28};
-    printArray(test1, 9);
-    heapSort(test1, 9);
-    printArray(test1, 9);
     printArray(test2, 24);
-    heapSort(test2, 24);
+    mergeSort(test2, 24);
     printArray(test2, 24);
     return EXIT_SUCCESS;
 }
