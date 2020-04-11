@@ -215,12 +215,97 @@ void mergeSort(int * data, int n){
     mergeSort(data, n, L, R);
 }
 
+// Helper function for quick sort
+// Implement the rearrangement with respect to the pivot
+// start/end is the index of the first/last element
+// in the array to be rearranged, respectively
+// Finally, return the index of the pivot (the partition, namely the left pointer)
+// If -1 is returned, this means the pivot is already the largest element
+int rearrange(int * data, int m, int start, int end){
+    int pivot = data[end];
+    int left = start;
+    int right = end-1;
+    while(true){
+        // Firstly scan from left to right,
+        // looking for an element that is smaller than (or equal to) the pivot
+        // Note that if the pivot is already the largest, whole loop ends here
+        while(data[left]<=pivot && left<end){
+            left ++;
+        }
+        // Than scan from right to left,
+        // looking for an element that is larger than the pivot
+        while(data[right]>pivot){
+            right --;
+        }
+        // Decide whether the rearrangement is completed
+        if(right<left){
+            // Swap the element which the left pointer points at
+            // with the pivot to complete the rearrangement
+            swap(data[left], data[end]);
+            // Terminate the function
+            break;
+        }
+        else{
+            // Proceed with the rearrangement
+            // Swap the left and right element into correct order
+            swap(data[left], data[right]);
+            continue;
+        }
+    }
+    // If left pointer reaches end, this means the pivot is already the largest
+    // Function returns -1 to indicate this special case
+    if(left==end){
+        return -1;
+    }
+    // Otherwise, return the index of left as the partition for next round
+    else{
+        return left;
+    }
+}
+
+// Implementation of the quick sort
+// start/end is the index of the first/last element
+void quickSort(int * data, int n, int start, int end){
+    // Base cases
+    if(n<=2){
+        if(n==2){
+            if(data[start]<=data[end]){
+                return;
+            }
+            else{
+                swap(data[start], data[end]);
+            }
+        }
+        else{
+            return;
+        }
+    }
+    // Sort the array and get the partition for next round
+    int partition = rearrange(data, n, start, end);
+    // If the partition==-1, the pivot is already the largest
+    // Only recursively sort the elements expcept it
+    if(partition == -1){
+        quickSort(data, n-1, start, end-1);
+    }
+    else{
+        // Recursively sort the left portion to the partition
+        quickSort(data, partition-start, start, partition-1);
+        // Recursively sort the right portition to the partition
+        quickSort(data, end-partition, partition+1, end);
+    }
+}
+
+// Interface for quick sort
+void quickSort(int * data, int n){
+    quickSort(data, n, 0, n-1);
+}
+
 int main()
 {
     int test1[9] = {45, 6, 13, 67, 76, 25, 18, 53, 32};
     int test2[24] = {16, 36, 70, 61, 45, 32, 51, 9, 22, 17, 46, 43, 83, 10, 38, 11, 47, 78, 57, 70, 43, 66, 61, 28};
     printArray(test2, 24);
-    mergeSort(test2, 24);
+    quickSort(test2, 24);
     printArray(test2, 24);
     return EXIT_SUCCESS;
 }
