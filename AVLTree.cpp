@@ -7,67 +7,101 @@ public:
     int height;
     Node * left;
     Node * right;
+
     // Deafult constructor
     Node(int input) : data(input), height(1), left(NULL), right(NULL){}
+
+    // Update height of current node
+    void updateHeight(){
+        // Get the height of left child
+        int leftHeight;
+        if(this->left==NULL){
+            leftHeight = 0;
+        }
+        else{
+            leftHeight = this->left->height;
+        }
+        // Get the height of right child
+        int rightHeight;
+        if(this->right==NULL){
+            rightHeight = 0;
+        }
+        else{
+            rightHeight = this->right->height;
+        }
+        // Update the height of current node
+        if(leftHeight>=rightHeight){
+            this->height = leftHeight+1;
+        }
+        else{
+            this->height = rightHeight+1;
+        }
+    }
+    
+    // Test whether current node is balanced
+    bool isBalanced(){
+        // Get the height of left child
+        int leftHeight;
+        if(this->left==NULL){
+            leftHeight = 0;
+        }
+        else{
+            leftHeight = this->left->height;
+        }
+        // Get the height of right child
+        int rightHeight;
+        if(this->right==NULL){
+            rightHeight = 0;
+        }
+        else{
+            rightHeight = this->right->height;
+        }
+        // If the heights of left and right child differ by more than 1
+        // this node is not balanced
+        if(abs(leftHeight-rightHeight)<=1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    // Print info of current node
+    void printNodeInfo(){
+        char status;
+        if(this->isBalanced()==true){
+            status = 'Y';
+        }
+        else{
+            status = 'N';
+        }
+        cout<<"Data: "<<data<<", Height: "<<height<<", Balanced: "<<status<<endl;
+    }
 };
-int getHeight(Node * curr){
-    if(curr==NULL){
-        return 0;
-    }
-    else{
-        return curr->height;
-    }
-}
-void updateHeight(Node * curr){
-    int leftHeight = getHeight(curr->left);
-    int rightHeight = getHeight(curr->right);
-    if(leftHeight>=rightHeight){
-        curr->height = leftHeight+1;
-    }
-    else{
-        curr->height = rightHeight+1;
-    }
-}
-void printNodeInfo(Node * curr){
-    if(curr==NULL){
-        cout<<"Data: NULL, Height: "<<getHeight(curr)<<endl;
-    }
-    else{
-        cout<<"Data: "<<curr->data<<", Height: "<<getHeight(curr)<<endl;
-    }
-}
-bool isBalanced(Node * curr){
-    int leftHeight = getHeight(curr->left);
-    int rightHeight = getHeight(curr->right);
-    // If the heights of left and right child differ by more than 1
-    // this node is not balanced
-    if(abs(leftHeight-rightHeight)<=1){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
+
 void rotateLeft(Node ** curr){
     Node * v = *curr;
     *curr = (*curr)->right;
     Node * temp = (*curr)->left;
     v->right = temp;
     (*curr)->left = v;
-    updateHeight((*curr)->left);
-    updateHeight((*curr)->right);
-    updateHeight(*curr);
+    (*curr)->left->updateHeight();
+    (*curr)->right->updateHeight();
+    (*curr)->updateHeight();
 }
+
 void rotateRight(Node ** curr){
     Node * v = *curr;
     *curr = (*curr)->left;
     Node * temp = (*curr)->right;
     v->left = temp;
     (*curr)->right = v;
-    updateHeight((*curr)->left);
-    updateHeight((*curr)->right);
-    updateHeight(*curr);
+    (*curr)->left->updateHeight();
+    (*curr)->right->updateHeight();
+    (*curr)->updateHeight();
 }
+
+
 
 class AVL{
 private:
@@ -88,14 +122,14 @@ private:
                 Node * newLeft = add(root->left, input);
                 root->left = newLeft;
                 // Update height of the root node
-                updateHeight(root);
+                root->updateHeight();
             }
             // If the data is larger, add to right subtree
             else{
                 Node * newRight = add(root->right, input);
                 root->right = newRight;
                 // Update height of the root node
-                updateHeight(root);
+                root->updateHeight();
             }
             return root;
         }
@@ -124,16 +158,19 @@ int main(){
     tree.add(1);
 
     Node * root = tree.getRoot();
-    cout<<isBalanced(root)<<endl;
-    printNodeInfo(root);
-    printNodeInfo(root->left);
-    printNodeInfo(root->left->left);
+    root->printNodeInfo();
+    Node * curr = root->left;
+    curr->printNodeInfo();
+    curr = curr->left;
+    curr->printNodeInfo();
 
+    cout<<"Execute right rotation"<<endl;
     rotateRight(&root);
-    cout<<isBalanced(root)<<endl;
-    printNodeInfo(root);
-    printNodeInfo(root->left);
-    printNodeInfo(root->right);
+    root->printNodeInfo();
+    curr = root->left;
+    curr->printNodeInfo();
+    curr = root->right;
+    curr->printNodeInfo();
 
     return EXIT_SUCCESS;
 }
