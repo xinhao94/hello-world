@@ -79,33 +79,10 @@ public:
     }
 };
 
-void rotateLeft(Node ** curr){
-    Node * v = *curr;
-    *curr = (*curr)->right;
-    Node * temp = (*curr)->left;
-    v->right = temp;
-    (*curr)->left = v;
-    (*curr)->left->updateHeight();
-    (*curr)->right->updateHeight();
-    (*curr)->updateHeight();
-}
-
-void rotateRight(Node ** curr){
-    Node * v = *curr;
-    *curr = (*curr)->left;
-    Node * temp = (*curr)->right;
-    v->left = temp;
-    (*curr)->right = v;
-    (*curr)->left->updateHeight();
-    (*curr)->right->updateHeight();
-    (*curr)->updateHeight();
-}
-
-
-
 class AVL{
 private:
     Node * root;
+
     // Private helper method
     // Add a node using recursion
     Node * add(Node * root, int input){
@@ -137,6 +114,7 @@ private:
 public:
     // Deafult constructor 1
     AVL() : root(NULL){}
+
     // Default constructor 2
     AVL(int input){
         root = new Node(input);
@@ -144,28 +122,57 @@ public:
     Node * getRoot(){
         return root;
     }
+
     // Add a node using recursion
     // Public interface
     void add(int input){
         root = add(root, input);
     }
+
+    // Execute left rotation
+    void rotateLeft(){
+        Node ** curr = &root;
+        Node * v = *curr;
+        *curr = (*curr)->right;
+        Node * temp = (*curr)->left;
+        v->right = temp;
+        (*curr)->left = v;
+        (*curr)->left->updateHeight();
+        (*curr)->right->updateHeight();
+        (*curr)->updateHeight();
+    }
+
+    // Execute right rotation
+    void rotateRight(){
+        Node ** curr = &root;
+        Node * v = *curr;
+        *curr = (*curr)->left;
+        Node * temp = (*curr)->right;
+        v->left = temp;
+        (*curr)->right = v;
+        (*curr)->left->updateHeight();
+        (*curr)->right->updateHeight();
+        (*curr)->updateHeight();
+    }
 };
 
 
 int main(){
-    AVL tree(10);
+    AVL tree(1);
     tree.add(5);
-    tree.add(1);
+    tree.add(10);
 
     Node * root = tree.getRoot();
     root->printNodeInfo();
-    Node * curr = root->left;
+    Node * curr = root->right;
     curr->printNodeInfo();
-    curr = curr->left;
+    curr = curr->right;
     curr->printNodeInfo();
 
-    cout<<"Execute right rotation"<<endl;
-    rotateRight(&root);
+    cout<<"Execute left rotation"<<endl;
+    tree.rotateLeft();
+
+    root = tree.getRoot();
     root->printNodeInfo();
     curr = root->left;
     curr->printNodeInfo();
