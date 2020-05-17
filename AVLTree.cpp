@@ -29,7 +29,44 @@ void updateHeight(Node * curr){
     }
 }
 void printNodeInfo(Node * curr){
-    cout<<"Data: "<<curr->data<<", Height: "<<getHeight(curr)<<endl;
+    if(curr==NULL){
+        cout<<"Data: NULL, Height: "<<getHeight(curr)<<endl;
+    }
+    else{
+        cout<<"Data: "<<curr->data<<", Height: "<<getHeight(curr)<<endl;
+    }
+}
+bool isBalanced(Node * curr){
+    int leftHeight = getHeight(curr->left);
+    int rightHeight = getHeight(curr->right);
+    // If the heights of left and right child differ by more than 1
+    // this node is not balanced
+    if(abs(leftHeight-rightHeight)<=1){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+void rotateLeft(Node ** curr){
+    Node * v = *curr;
+    *curr = (*curr)->right;
+    Node * temp = (*curr)->left;
+    v->right = temp;
+    (*curr)->left = v;
+    updateHeight((*curr)->left);
+    updateHeight((*curr)->right);
+    updateHeight(*curr);
+}
+void rotateRight(Node ** curr){
+    Node * v = *curr;
+    *curr = (*curr)->left;
+    Node * temp = (*curr)->right;
+    v->left = temp;
+    (*curr)->right = v;
+    updateHeight((*curr)->left);
+    updateHeight((*curr)->right);
+    updateHeight(*curr);
 }
 
 class AVL{
@@ -84,20 +121,19 @@ public:
 int main(){
     AVL tree(10);
     tree.add(5);
-    tree.add(15);
-    tree.add(3);
-    tree.add(2);
+    tree.add(1);
 
     Node * root = tree.getRoot();
-    cout<<"Root:"<<endl;
+    cout<<isBalanced(root)<<endl;
     printNodeInfo(root);
+    printNodeInfo(root->left);
+    printNodeInfo(root->left->left);
 
-    Node * curr = root->left;
-    cout<<"Left child:"<<endl;
-    printNodeInfo(curr);
+    rotateRight(&root);
+    cout<<isBalanced(root)<<endl;
+    printNodeInfo(root);
+    printNodeInfo(root->left);
+    printNodeInfo(root->right);
 
-    curr = root->right;
-    cout<<"Right child:"<<endl;
-    printNodeInfo(curr);
     return EXIT_SUCCESS;
 }
