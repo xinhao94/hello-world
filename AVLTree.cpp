@@ -266,16 +266,21 @@ public:
 
 int main(){
     AVL tree(10);
-    tree.add(5);
-    tree.add(7);
+    tree.add(12);
+    tree.add(8);
+    tree.add(14);
+    tree.add(13);
 
     Node * root = tree.getRoot();
     root->printNodeInfo();
 
     Node * curr = root->left;
     curr->printNodeInfo();
-
     curr = root->right;
+    curr->printNodeInfo();
+    curr = root->right->left;
+    curr->printNodeInfo();
+    curr = root->right->right;
     curr->printNodeInfo();
 
     return EXIT_SUCCESS;
