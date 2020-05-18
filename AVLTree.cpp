@@ -193,6 +193,16 @@ private:
                         rotateRight(&root);
                         cout<<"*** Right rotation executed ***"<<endl;
                     }
+                    // If the longest path is left, right
+                    // Do double rotations: left->right
+                    else{
+                        // Do left rotation for subtree rooted at left child
+                        rotateLeft(&(root->left));
+                        cout<<"*** Left rotation executed ***"<<endl;
+                        // Do right rotation
+                        rotateRight(&root);
+                        cout<<"*** Right rotation executed ***"<<endl;
+                    }
                 }
             }
             return root;
@@ -257,7 +267,7 @@ public:
 int main(){
     AVL tree(10);
     tree.add(5);
-    tree.add(3);
+    tree.add(7);
 
     Node * root = tree.getRoot();
     root->printNodeInfo();
