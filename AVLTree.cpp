@@ -79,6 +79,63 @@ public:
     }
 };
 
+int getHeight(Node * curr){
+    if(curr==NULL){
+        return 0;
+    }
+    else{
+        return curr->height;
+    }
+}
+/*
+void updateHeight(Node * curr){
+    if(curr==NULL){
+        return;
+    }
+    else{
+        int leftHeight = getHeight(curr->left);
+        int rightHeight = getHeight(curr->right);
+        if(leftHeight>=rightHeight){
+            curr->height = leftHeight+1;
+        }
+        else{
+            curr->height = rightHeight+1;
+        }
+    }
+}
+*/
+
+// Execute left rotation
+void rotateLeft(Node ** curr){
+    Node * v = *curr;
+    *curr = (*curr)->right;
+    Node * temp = (*curr)->left;
+    v->right = temp;
+    (*curr)->left = v;
+    if((*curr)->left!=NULL){
+            (*curr)->left->updateHeight();
+        }
+    if((*curr)->right!=NULL){
+        (*curr)->right->updateHeight();
+    }
+    (*curr)->updateHeight();
+}
+// Execute right rotation
+void rotateRight(Node ** curr){
+    Node * v = *curr;
+    *curr = (*curr)->left;
+    Node * temp = (*curr)->right;
+    v->left = temp;
+    (*curr)->right = v;
+    if((*curr)->left!=NULL){
+        (*curr)->left->updateHeight();
+    }
+    if((*curr)->right!=NULL){
+        (*curr)->right->updateHeight();
+    }
+    (*curr)->updateHeight();
+}
+
 class AVL{
 private:
     Node * root;
@@ -98,15 +155,45 @@ private:
             if(input<root->data){
                 Node * newLeft = add(root->left, input);
                 root->left = newLeft;
-                // Update height of the root node
-                root->updateHeight();
             }
             // If the data is larger, add to right subtree
             else{
                 Node * newRight = add(root->right, input);
                 root->right = newRight;
-                // Update height of the root node
-                root->updateHeight();
+            }
+            // Update height of the root node
+            root->updateHeight();
+            // Check whether the node is balanced
+            // If not, restore balance
+            if(root->isBalanced()==false){
+                // If height of right child is larger
+                if(getHeight(root->right)>getHeight(root->left)){
+                    // If the longest path is right, right
+                    // Do single left rotation
+                    if(getHeight(root->right->right)>getHeight(root->right->left)){
+                        rotateLeft(&root);
+                        cout<<"*** Left rotation executed ***"<<endl;
+                    }
+                    // If the longest path is right, left
+                    // Do double rotations: right->left
+                    else{
+                        // Do right rotation for subtree rooted at right child
+                        rotateRight(&(root->right));
+                        cout<<"*** Right rotation executed ***"<<endl;
+                        // Do left rotation
+                        rotateLeft(&root);
+                        cout<<"*** Left rotation executed ***"<<endl;
+                    }
+                }
+                // If height of left child is larger
+                if(getHeight(root->left)>getHeight(root->right)){
+                    // If the longest path is left, left
+                    // Do single right rotation
+                    if(getHeight(root->left->left)>getHeight(root->left->right)){
+                        rotateRight(&root);
+                        cout<<"*** Right rotation executed ***"<<endl;
+                    }
+                }
             }
             return root;
         }
@@ -129,6 +216,7 @@ public:
         root = add(root, input);
     }
 
+    /*
     // Execute left rotation
     void rotateLeft(){
         Node ** curr = &root;
@@ -137,8 +225,12 @@ public:
         Node * temp = (*curr)->left;
         v->right = temp;
         (*curr)->left = v;
-        (*curr)->left->updateHeight();
-        (*curr)->right->updateHeight();
+        if((*curr)->left!=NULL){
+            (*curr)->left->updateHeight();
+        }
+        if((*curr)->right!=NULL){
+            (*curr)->right->updateHeight();
+        }
         (*curr)->updateHeight();
     }
 
@@ -150,32 +242,29 @@ public:
         Node * temp = (*curr)->right;
         v->left = temp;
         (*curr)->right = v;
-        (*curr)->left->updateHeight();
-        (*curr)->right->updateHeight();
+        if((*curr)->left!=NULL){
+            (*curr)->left->updateHeight();
+        }
+        if((*curr)->right!=NULL){
+            (*curr)->right->updateHeight();
+        }
         (*curr)->updateHeight();
     }
+    */
 };
 
 
 int main(){
-    AVL tree(1);
+    AVL tree(10);
     tree.add(5);
-    tree.add(10);
+    tree.add(3);
 
     Node * root = tree.getRoot();
     root->printNodeInfo();
-    Node * curr = root->right;
-    curr->printNodeInfo();
-    curr = curr->right;
+
+    Node * curr = root->left;
     curr->printNodeInfo();
 
-    cout<<"Execute left rotation"<<endl;
-    tree.rotateLeft();
-
-    root = tree.getRoot();
-    root->printNodeInfo();
-    curr = root->left;
-    curr->printNodeInfo();
     curr = root->right;
     curr->printNodeInfo();
 
