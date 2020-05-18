@@ -113,7 +113,7 @@ void rotateLeft(Node ** curr){
     v->right = temp;
     (*curr)->left = v;
     if((*curr)->left!=NULL){
-            (*curr)->left->updateHeight();
+        (*curr)->left->updateHeight();
         }
     if((*curr)->right!=NULL){
         (*curr)->right->updateHeight();
